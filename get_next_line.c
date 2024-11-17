@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 21:46:03 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 21:48:08 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ char	*get_next_line(int fd)
 	if (i < 0 || (!i && !l->buff[c / 2][0]))
 		return (NULL);
 	if (i == 0)
-		res = ft_sub(l->buff[c / 2], 0, ft_l(l->buff[c / 2]));
+		res = ft_sub(tmp, 0, ft_l(l->buff[c / 2]));
 	else
-		res = ft_sub(l->buff[c / 2], 0, ft_s(l->buff[c / 2], '\n') + 1);
+		res = ft_sub(tmp, 0, ft_s(l->buff[c / 2], '\n') + 1);
 	if (res)
 	{
-		l->buff[c / 2] = ft_sub(tmp, ft_l(res), ft_l(tmp));
+		l->buff[c / 2] = ft_sub(l->buff[c / 2], ft_l(res), ft_l(l->buff[c / 2]));
 		free(tmp);
 	}
 	return (res);
