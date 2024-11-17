@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 21:05:00 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 21:07:09 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_lst_add_back(t_lst **lst, int fd)
 	{
 		i++;
 	}
-	ft_realloc((*lst)->tab, i + 1, i + 3);
+	ft_realloc((*lst)->tab, i, i + 3);
 	(*lst)->tab[i] = fd;
 	(*lst)->tab[i + 1] = 0;
 	(*lst)->tab[i + 2] = -1;
