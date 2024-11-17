@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 22:20:34 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:24:33 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	main(void)
 		return (0);
 	line = get_next_line(fd1);
 	printf("%s\n", line);
-	line = get_next_line(fd2);
+	line = get_next_line(fd1);
 	printf("%s\n", line);
 	close(fd1);
 	close(fd2);
