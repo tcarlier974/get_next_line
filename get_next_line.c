@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 22:11:55 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:14:04 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*get_next_line(int fd)
 	}
 	if (i < 0 || (!i && !l->buff[c / 2][0]))
 		return (NULL);
+	tmp = malloc(sizeof(char) * (ft_c(l->buff[c / 2], '\n') + 1));
 	ft_strlcpy(tmp, l->buff[c / 2], ft_c(l->buff[c / 2], '\n') + 1);
 	if (i == 0)
 		res = ft_s(tmp, 0, ft_l(tmp));
