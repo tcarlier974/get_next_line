@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 21:50:49 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 21:54:21 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,7 @@ char	*ft_s(char *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (NULL);
-	if (start >= ft_l(s))
-	{
-		res = malloc(1);
-		res[0] = '\0';
-		return (res);
-	}
-	if (ft_l(s) < len + start)
-		len = ft_l(s) - start;
-	res = (char *)malloc(len + 1);
+	res = (char *)malloc(sizeof(char) * (len + 1));
 	if (!res)
 		return (NULL);
 	ft_strlcpy(res, s + start, len + 1);
