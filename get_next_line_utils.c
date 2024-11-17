@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 20:31:37 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 20:35:40 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int		ft_find_fd(t_lst **lst, int fd)
 	int	i;
 
 	i = 0;
-	while ((*lst)->tab[i] != fd || (*lst)->tab[i] != -1)
+	while ((*lst)->tab[i] != fd || (*lst)->tab[i] == -1)
 		i += 2;
 	if ((*lst)->tab[i] == -1)
 		ft_lst_add_back(&(*lst), fd);
