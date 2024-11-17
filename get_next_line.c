@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 20:18:34 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 20:29:08 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char *get_next_line(int fd)
     if (!l && !(ft_lst_init(&l, fd)))
         return (NULL);
     
-    c = ft_find_fd(l, fd);
+    c = ft_find_fd(&l, fd);
     i = 1;
     
     while (i > 0 && ft_new_line(l->buff[c / 2]))
