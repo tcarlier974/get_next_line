@@ -63,8 +63,7 @@ char	*get_next_line(int fd)
 		files[fd].buf = ft_strjoin_free(files[fd].buf, buffer);
 	}
 	if (files[fd].buf && *files[fd].buf)
-		;
-	line = ft_extract_line(&files[fd].buf);
+		line = ft_extract_line(&files[fd].buf);
 	return (line);
 }
 
