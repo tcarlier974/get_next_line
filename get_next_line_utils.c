@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 20:20:36 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 20:27:38 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,15 @@ void	*ft_realloc(void *buff, size_t olds, size_t news)
 	return (new);
 }
 
-int		ft_find_fd(t_lst *lst, int fd)
+int		ft_find_fd(t_lst **lst, int fd)
 {
 	int	i;
 
 	i = 0;
-	while (lst->tab[i] != fd)
+	while ((*lst)->tab[i] != fd)
 		i += 2;
-	if (lst->tab[i] == -1)
-		ft_lst_add_back(&lst, fd);
+	if ((*lst)->tab[i] == -1)
+		ft_lst_add_back(&(*lst), fd);
 	return (i);
 }
 
