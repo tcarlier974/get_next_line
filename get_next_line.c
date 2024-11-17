@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 17:54:17 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 18:22:32 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ char	*get_next_line(int fd)
 	i = -1;
 	while(ft_new_line(lst->buff[c / 2]) != 0 || i == 0)
 	{
-		lst->buff[c / 2] = ft_realloc(lst->buff[c / 2], ft_strlen(lst->buff[c / 2]),
-			ft_strlen(lst->buff[c / 2]) + BUFFER_SIZE);
-		i += read(fd, lst->buff[c / 2] + lst->tab[c + 1], BUFFER_SIZE);
+		lst->buff[c / 2] = ft_realloc(lst->buff[c / 2], lst->tab[c + 1],
+			lst->tab[c + 1] + BUFFER_SIZE);
+		i = read(fd, lst->buff[c / 2] + lst->tab[c + 1], BUFFER_SIZE + i);
+		lst->tab[c + 1] += i;
 	}
-	lst->tab[c + 1] = i + 1;
 	if (i == 0)
-		res = (ft_substr(lst->buff[c / 2], lst->tab[c + 1], ft_strlen(lst->buff[c / 2])));
+		res = (ft_substr(lst->buff[c / 2], 0, ft_strlen(lst->buff[c / 2])));
 	else
-		res = (ft_substr(lst->buff[c / 2], lst->tab[c + 1], ft_s(lst->buff[c / 2], '\n') + 1));
+		res = (ft_substr(lst->buff[c / 2], 0, ft_s(lst->buff[c / 2], '\n') + 1));
 	lst->buff[c / 2] = ft_substr(lst->buff[c / 2], ft_strlen(res), ft_strlen(lst->buff[c / 2]));
 	return (res);
 }
