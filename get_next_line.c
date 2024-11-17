@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 21:57:51 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:03:18 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	*get_next_line(int fd)
 		res = ft_s(tmp, 0, ft_c(tmp, '\n') + 1);
 	if (res)
 	{
+		l->buff[c / 2] = tmp;
 		l->buff[c / 2] = ft_s(l->buff[c / 2], ft_l(res), ft_l(l->buff[c / 2]));
 		free(tmp);
 	}
