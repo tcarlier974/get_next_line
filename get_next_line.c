@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 14:23:50 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 16:25:03 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,29 @@ char	*get_next_line(int fd)
 	i = -1;
 	while(!(ft_new_line(lst->buff[c])) || i == 0);
 	{
-		ft_realloc(lst->buff[c], ft_strlen(lst->buff[c]),
-			ft_strlen(lst->buff[c]) + BUFFER_SIZE);
-		i = read(fd, lst->buff[c] + lst->tab[c + 1], BUFFER_SIZE);
+		lst->buff[c / 2] = ft_realloc(lst->buff[c / 2], ft_strlen(lst->buff[c / 2]),
+			ft_strlen(lst->buff[c / 2]) + BUFFER_SIZE);
+		i += read(fd, lst->buff[c / 2] + lst->tab[c + 1], BUFFER_SIZE);
 	}
+	lst->tab[c + 1] = i + 1;
 	if (i == 0)
-		return (ft_substr(lst->buff[c], lst->tab[c + 1], ft_strlen(lst->buff[c])));
+		return (ft_substr(lst->buff[c / 2], lst->tab[c + 1], ft_strlen(lst->buff[c / 2])));
 	else
-		return (ft_substr(lst->buff[c], lst->tab[c + 1], ft_s(lst->buff[c], '\n') + 1));
+		return (ft_substr(lst->buff[c / 2], lst->tab[c + 1], ft_s(lst->buff[c / 2], '\n') + 1));
 	return (res);
 }
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char	*res;
 
 	if (!s)
 		return (NULL);
 	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
+	{
+		res = malloc(1);
+		res[0] = '\0';
+		return (res);
+	}
 	if (ft_strlen(s) < len + start)
 		len = ft_strlen(s) - start;
 	res = (char *)malloc(len + 1);
@@ -53,10 +58,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	ft_strlcpy(res, s + start, len + 1);
 	return (res);
 }
-char	*ft_s(const char *s, int c)
+int	ft_s(const char *s, int c)
 {
-	size_t	i;
-	size_t	res;
+	int	i;
+	int	res;
 
 	i = 0;
 	res = 0;
@@ -67,10 +72,10 @@ char	*ft_s(const char *s, int c)
 		i++;
 	}
 	if ((char)c == '\0')
-		return ((char *)s + ft_strlen((char *)s));
+		return ((int)ft_strlen((char *)s));
 	if (res == 0 && s[0] != (char)c)
-		return (NULL);
-	return ((char *)s + res);
+		return (0);
+	return (res);
 }
 size_t	ft_strlen(char *str)
 {
@@ -81,9 +86,25 @@ size_t	ft_strlen(char *str)
 		i++;
 	return (i);
 }
-int	
 
-#include <stdio.h>
+size_t	ft_strlcpy(char *dst, char *src
+	, size_t dstsize)
+{
+	size_t	i;
+
+	i = 0;
+	if (dstsize > 0)
+	{
+		while (i < dstsize - 1 && src[i])
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (ft_strlen(src));
+}
+
 
 int	main(void)
 {
