@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 22:03:18 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:08:25 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,11 @@ char	*get_next_line(int fd)
 	i = 1;
 	while (i > 0 && ft_new_line(l->buff[c / 2]))
 	{
-		tmp = ft_realloc(l->buff[c / 2],
+		l->buff[c / 2] = ft_realloc(l->buff[c / 2],
 				ft_l(l->buff[c / 2]), 
 				ft_l(l->buff[c / 2]) + BUFFER_SIZE);
-		if (!tmp)
+		if (!l->buff[c / 2])
 			return (NULL);
-		l->buff[c / 2] = tmp;
 		i = read(fd, l->buff[c / 2] + ft_l(l->buff[c / 2]), BUFFER_SIZE);
 		if (i > 0)
 			l->buff[c / 2][ft_l(l->buff[c / 2]) + i] = '\0';
@@ -41,14 +40,12 @@ char	*get_next_line(int fd)
 	if (i < 0 || (!i && !l->buff[c / 2][0]))
 		return (NULL);
 	if (i == 0)
-		res = ft_s(tmp, 0, ft_l(tmp));
+		res = ft_s(l->buff[c / 2], 0, ft_l(l->buff[c / 2]));
 	else
-		res = ft_s(tmp, 0, ft_c(tmp, '\n') + 1);
+		res = ft_s(l->buff[c / 2], 0, ft_c(l->buff[c / 2], '\n') + 1);
 	if (res)
 	{
-		l->buff[c / 2] = tmp;
 		l->buff[c / 2] = ft_s(l->buff[c / 2], ft_l(res), ft_l(l->buff[c / 2]));
-		free(tmp);
 	}
 	return (res);
 }
