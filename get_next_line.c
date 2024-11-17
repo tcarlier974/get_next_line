@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 22:25:10 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:29:31 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,20 +109,20 @@ size_t	ft_strlcpy(char *dst, char *src
 }
 
 
-int	main(void)
-{
-	int fd1;
-	char *line;
+// int	main(void)
+// {
+// 	int fd1;
+// 	char *line;
 	
-	fd1 = open("test.txt", O_RDONLY);
-	int fd2 = open("test2.txt", O_RDONLY);
-	if (fd1 == -1 || fd2 == -1)
-		return (0);
-	line = get_next_line(fd1);
-	printf("%s", line);
-	line = get_next_line(fd1);
-	printf("%s", line);
-	close(fd1);
-	close(fd2);
-	return (0);
-}
+// 	fd1 = open("test.txt", O_RDONLY);
+// 	int fd2 = open("test2.txt", O_RDONLY);
+// 	if (fd1 == -1 || fd2 == -1)
+// 		return (0);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	close(fd1);
+// 	close(fd2);
+// 	return (0);
+// }
