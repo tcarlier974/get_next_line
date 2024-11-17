@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 17:04:01 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 17:05:59 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_lst_init(t_lst **lst, int fd)
 		free(*lst);
 		return ;
 	}
-	(*lst)->buff[0] = "\0";
+	(*lst)->buff[0][0] = '\0';
 }
 
 void	ft_lst_add_back(t_lst *lst, int fd)
@@ -78,6 +78,7 @@ int		ft_find_fd(t_lst *lst, int fd)
 		ft_lst_add_back(lst, fd);
 	return (i);
 }
+
 int	ft_new_line(char *buff)
 {
 	int	i;

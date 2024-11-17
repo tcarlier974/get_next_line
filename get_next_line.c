@@ -3,40 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 16:59:12 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 17:11:02 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
-	static t_lst	*lst;
-	char			*res;
-	int				i;
-	int				c;
-	
-	if (fd == 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	if (!lst)
-		ft_lst_init(&lst, fd);
-	c = ft_find_fd(lst, fd);
-	i = -1;
-	while(ft_new_line(lst->buff[c / 2]) != 0 || i == 0);
-	{
-		lst->buff[c / 2] = ft_realloc(lst->buff[c / 2], ft_strlen(lst->buff[c / 2]),
-			ft_strlen(lst->buff[c / 2]) + BUFFER_SIZE);
-		i += read(fd, lst->buff[c / 2] + lst->tab[c + 1], BUFFER_SIZE);
-	}
-	lst->tab[c + 1] = i + 1;
-	if (i == 0)
-		return (ft_substr(lst->buff[c / 2], lst->tab[c + 1], ft_strlen(lst->buff[c / 2])));
-	else
-		return (ft_substr(lst->buff[c / 2], lst->tab[c + 1], ft_s(lst->buff[c / 2], '\n') + 1));
-	return (res);
+    static t_lst    *lst;
+    char            *res;
+    int             i;
+    int             c;
+    
+    if (fd < 0 || BUFFER_SIZE <= 0)
+        return (NULL);
+    if (!lst)
+        ft_lst_init(&lst, fd);
+    c = ft_find_fd(lst, fd);
+    
+    // Lire jusqu'à trouver \n ou EOF
+    while (1)
+    {
+        i = read(fd, lst->buff[c/2] + lst->tab[c+1], BUFFER_SIZE);
+        if (i <= 0) break;
+        lst->tab[c+1] += i;
+        lst->buff[c/2][lst->tab[c+1]] = '\0';
+        if (!ft_new_line(lst->buff[c/2]))
+            break;
+    }
+    
+    // Extraire la ligne
+    if (i < 0 || (lst->tab[c+1] == 0 && !lst->buff[c/2][0]))
+        return (NULL);
+    return (ft_substr(lst->buff[c/2], 0, 
+           ft_s(lst->buff[c/2], '\n') + 1));
 }
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {
