@@ -6,19 +6,21 @@
 /*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 16:27:42 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 16:58:09 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_lst_init(t_lst *lst, int fd)
+void	ft_lst_init(t_lst **lst, int fd)
 {
-	lst = (t_lst *)malloc(sizeof(t_lst));
-	lst->tab = (int *)malloc(sizeof(int) * 3);
-	lst->tab[0] = fd;
-	lst->tab[1] = 0;
-	lst->tab[2] = -1;
+	(*lst) = (t_lst *)malloc(sizeof(t_lst));
+	(*lst)->tab = (int *)malloc(sizeof(int) * 3);
+	(*lst)->buff = (char **)malloc(sizeof(char *));
+	(*lst)->tab[0] = fd;
+	(*lst)->tab[1] = 0;
+	(*lst)->tab[2] = -1;
+	(*lst)->buff[0] = "\0";
 }
 
 void	ft_lst_add_back(t_lst *lst, int fd)
@@ -70,10 +72,11 @@ int	ft_new_line(char *buff)
 	int	i;
 
 	i = 0;
-	while (buff[i])
+	while ( buff && buff[i] != '\0')
 	{
 		if (buff[i] == '\n')
-			return (1);
+			return (0);
+		i++;
 	}
-	return (0);
+	return (1);
 }

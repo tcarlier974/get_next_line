@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 16:25:03 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 16:59:12 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ char	*get_next_line(int fd)
 	if (fd == 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!lst)
-		ft_lst_init(lst, fd);
+		ft_lst_init(&lst, fd);
 	c = ft_find_fd(lst, fd);
 	i = -1;
-	while(!(ft_new_line(lst->buff[c])) || i == 0);
+	while(ft_new_line(lst->buff[c / 2]) != 0 || i == 0);
 	{
 		lst->buff[c / 2] = ft_realloc(lst->buff[c / 2], ft_strlen(lst->buff[c / 2]),
 			ft_strlen(lst->buff[c / 2]) + BUFFER_SIZE);
