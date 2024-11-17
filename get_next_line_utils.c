@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 17:05:59 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 19:58:23 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ void	ft_lst_init(t_lst **lst, int fd)
 	if (!(*lst)->tab || !(*lst)->buff)
 	{
 		free(*lst);
+		free((*lst)->tab);
 		return ;
 	}
 	(*lst)->tab[0] = fd;
 	(*lst)->tab[1] = 0;
 	(*lst)->tab[2] = -1;
-	(*lst)->buff[0] = (char *)malloc(sizeof(char));
+	(*lst)->buff[0] = (char *)malloc(sizeof(char) * 1);
 	if (!(*lst)->buff[0])
 	{
 		free(*lst);
