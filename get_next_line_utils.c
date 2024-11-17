@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 16:58:09 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 17:04:01 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,20 @@ void	ft_lst_init(t_lst **lst, int fd)
 	(*lst) = (t_lst *)malloc(sizeof(t_lst));
 	(*lst)->tab = (int *)malloc(sizeof(int) * 3);
 	(*lst)->buff = (char **)malloc(sizeof(char *));
+	if (!(*lst)->tab || !(*lst)->buff)
+	{
+		free(*lst);
+		return ;
+	}
 	(*lst)->tab[0] = fd;
 	(*lst)->tab[1] = 0;
 	(*lst)->tab[2] = -1;
+	(*lst)->buff[0] = (char *)malloc(sizeof(char));
+	if (!(*lst)->buff[0])
+	{
+		free(*lst);
+		return ;
+	}
 	(*lst)->buff[0] = "\0";
 }
 
