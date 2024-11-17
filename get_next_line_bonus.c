@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 23:52:24 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 00:15:05 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ char	*get_next_line(int fd)
 	ssize_t			bytes;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= 1024)
+	{
 		return (NULL);
+	}
 	if (!files[fd].buf)
 		files[fd].buf = ft_strdup("");
 	line = NULL;
