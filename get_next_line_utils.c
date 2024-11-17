@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 13:40:01 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 14:10:02 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	*ft_realloc(void *buff, size_t olds, size_t news)
 void	*ft_realloc_int(void *buff, size_t olds, size_t news)
 {
 	size_t	i;
-	char	*new;
+	int		*new;
 
 	new = malloc(sizeof(int) * news);
 	if (!new)
