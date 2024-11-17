@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 12:58:00 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 13:36:09 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,25 @@
 
 char	*get_next_line(int fd)
 {
-	static int	*lst;
-	char		*str;
-	int			i;
-	char		*buff;
+	static t_lst	*lst;
+	char			*res;
+	t_lst			*lst_tmp;
+	int				i;
+	int				c;
 	
 	if (fd == 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!lst)
-		ft_lst_init(&lst, fd);
-	buff = "";
-	while(!(ft_new_line(buff)));
+		ft_lst_init(lst, fd);
+	c = ft_find_fd(lst, fd);
+	i = -1;
+	while(!(ft_new_line(lst->buff)) || i == 0);
 	{
-		
-		i = read(fd, buff, BUFFER_SIZE);
+		ft_realloc(lst->buff, ft_strlen(lst_tmp->buff),
+			ft_strlen(lst->buff) + BUFFER_SIZE);
+		i = read(fd, lst->buff + lst->tab[c + 1], BUFFER_SIZE);
 	}
-	ft_find_fd(&i);
+	
 }
 #include <stdio.h>
 
