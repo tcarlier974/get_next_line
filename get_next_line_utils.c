@@ -6,13 +6,13 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 19:58:23 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 20:20:36 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_lst_init(t_lst **lst, int fd)
+t_lst	*ft_lst_init(t_lst **lst, int fd)
 {
 	(*lst) = (t_lst *)malloc(sizeof(t_lst));
 	(*lst)->tab = (int *)malloc(sizeof(int) * 3);
@@ -21,7 +21,7 @@ void	ft_lst_init(t_lst **lst, int fd)
 	{
 		free(*lst);
 		free((*lst)->tab);
-		return ;
+		return (NULL);
 	}
 	(*lst)->tab[0] = fd;
 	(*lst)->tab[1] = 0;
@@ -30,24 +30,28 @@ void	ft_lst_init(t_lst **lst, int fd)
 	if (!(*lst)->buff[0])
 	{
 		free(*lst);
-		return ;
+		return (NULL);
 	}
 	(*lst)->buff[0][0] = '\0';
+	return (*lst);
 }
 
-void	ft_lst_add_back(t_lst *lst, int fd)
+void	ft_lst_add_back(t_lst **lst, int fd)
 {
 	int	i;
 
 	i = 0;
-	while (lst->tab[i] != -1)
+	while ((*lst)->tab[i] != -1)
 	{
 		i++;
 	}
-	ft_realloc(lst->tab, i + 1, i + 3);
-	lst->tab[i] = fd;
-	lst->tab[i + 1] = 0;
-	lst->tab[i + 2] = -1;
+	ft_realloc((*lst)->tab, i + 1, i + 3);
+	(*lst)->tab[i] = fd;
+	(*lst)->tab[i + 1] = 0;
+	(*lst)->tab[i + 2] = -1;
+	ft_realloc((*lst)->buff, i, i + 1);
+	(*lst)->buff[i] = (char *)malloc(sizeof(char) * 1);
+	(*lst)->buff[i][0] = '\0';
 }
 
 void	*ft_realloc(void *buff, size_t olds, size_t news)
@@ -76,7 +80,7 @@ int		ft_find_fd(t_lst *lst, int fd)
 	while (lst->tab[i] != fd)
 		i += 2;
 	if (lst->tab[i] == -1)
-		ft_lst_add_back(lst, fd);
+		ft_lst_add_back(&lst, fd);
 	return (i);
 }
 
