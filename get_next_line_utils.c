@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 21:07:09 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 21:12:47 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	ft_lst_add_back(t_lst **lst, int fd)
 	(*lst)->tab[i + 1] = 0;
 	(*lst)->tab[i + 2] = -1;
 	ft_realloc((*lst)->buff, i, i + 1);
-	(*lst)->buff[i] = (char *)malloc(sizeof(char) * 1);
-	(*lst)->buff[i][0] = '\0';
+	(*lst)->buff[i / 2] = (char *)malloc(sizeof(char) * 1);
+	(*lst)->buff[i / 2][0] = '\0';
 }
 
 void	*ft_realloc(void *buff, size_t olds, size_t news)
