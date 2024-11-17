@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 21:48:08 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 21:50:49 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,18 @@ char	*get_next_line(int fd)
 	if (i < 0 || (!i && !l->buff[c / 2][0]))
 		return (NULL);
 	if (i == 0)
-		res = ft_sub(tmp, 0, ft_l(l->buff[c / 2]));
+		res = ft_s(tmp, 0, ft_l(l->buff[c / 2]));
 	else
-		res = ft_sub(tmp, 0, ft_s(l->buff[c / 2], '\n') + 1);
+		res = ft_s(tmp, 0, ft_c(l->buff[c / 2], '\n') + 1);
 	if (res)
 	{
-		l->buff[c / 2] = ft_sub(l->buff[c / 2], ft_l(res), ft_l(l->buff[c / 2]));
+		l->buff[c / 2] = ft_s(l->buff[c / 2], ft_l(res), ft_l(l->buff[c / 2]));
 		free(tmp);
 	}
 	return (res);
 }
 
-char	*ft_sub(char *s, unsigned int start, size_t len)
+char	*ft_s(char *s, unsigned int start, size_t len)
 {
 	char	*res;
 
@@ -73,7 +73,7 @@ char	*ft_sub(char *s, unsigned int start, size_t len)
 	return (res);
 }
 
-int	ft_s(const char *s, int c)
+int	ft_c(const char *s, int c)
 {
 	int	i;
 	int	res;
