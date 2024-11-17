@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 18:32:16 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 18:45:23 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ char	*get_next_line(int fd)
 		ft_lst_init(&lst, fd);
 	c = ft_find_fd(lst, fd);
 	i = -1;
-	while(ft_new_line(lst->buff[c / 2])
+	while(ft_new_line(lst->buff[c / 2]))
 	{
-		lst->buff[c / 2] = ft_realloc(lst->buff[c / 2], lst->tab[c + 1],
-			lst->tab[c + 1] + BUFFER_SIZE + 1);
-		i = read(fd, lst->buff[c / 2] + lst->tab[c + 1], BUFFER_SIZE + i);
-		lst->tab[c + 1] += i;
+		lst->buff[c / 2] = ft_realloc(lst->buff[c / 2], ft_strlen(lst->buff[c / 2]),
+			ft_strlen(lst->buff[c / 2]) + BUFFER_SIZE);
+		i = read(fd, lst->buff[c / 2] + lst->tab[c + 1], BUFFER_SIZE);
+		lst->tab[c + 1] += i + 1;
 	}
 	if (i == 0)
 		res = (ft_substr(lst->buff[c / 2], 0, ft_strlen(lst->buff[c / 2])));
@@ -117,7 +117,7 @@ int	main(void)
 	while ((line))
 	{
 		printf("%s", line);
-		free(line);
+		// free(line);
 		line = get_next_line(fd);
 	}
 	close(fd);
