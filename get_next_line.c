@@ -6,70 +6,58 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 17:16:59 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 17:25:33 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-    static t_lst    *lst;
-    char            *res;
-    int             i;
-    int             c;
-    
-    if (fd < 0 || BUFFER_SIZE <= 0)
-        return (NULL);
-    if (!lst)
-        ft_lst_init(&lst, fd);
-    c = ft_find_fd(lst, fd);
-    while (1)
-    {
-        i = read(fd, lst->buff[c/2] + lst->tab[c+1], BUFFER_SIZE);
-        if (i <= 0) break;
-        lst->tab[c+1] += i;
-        lst->buff[c/2][lst->tab[c+1]] = '\0';
-        if (!ft_new_line(lst->buff[c/2]))
-            break;
-    }
-    if (i < 0 || (lst->tab[c+1] == 0 && !lst->buff[c/2][0]))
-        return (NULL);
-    return (ft_substr(lst->buff[c/2], 0, 
-           ft_s(lst->buff[c/2], '\n') + 1));
+	static t_lst	*lst;
+	char			*res;
+	int				i;
+	int				c;
+	
+	if (fd == 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (!lst)
+		ft_lst_init(&lst, fd);
+	c = ft_find_fd(lst, fd);
+	i = -1;
+	while(ft_new_line(lst->buff[c / 2]) != 0 || i != 0)
+	{
+		lst->buff[c / 2] = ft_realloc(lst->buff[c / 2], ft_strlen(lst->buff[c / 2]),
+			ft_strlen(lst->buff[c / 2]) + BUFFER_SIZE);
+		i += read(fd, lst->buff[c / 2] + lst->tab[c + 1], BUFFER_SIZE);
+	}
+	lst->tab[c + 1] = i + 1;
+	if (i == 0)
+		return (ft_substr(lst->buff[c / 2], lst->tab[c + 1], ft_strlen(lst->buff[c / 2])));
+	else
+		return (ft_substr(lst->buff[c / 2], lst->tab[c + 1], ft_s(lst->buff[c / 2], '\n') + 1));
+	return (res);
 }
-
-char *ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
-    char    *res;
-    size_t  s_len;
+	char	*res;
 
-    if (!s)
-        return (NULL);
-    s_len = ft_strlen(s);
-    if (start >= s_len)
-    {
-        res = malloc(1);
-        if (!res)
-            return (NULL);
-        res[0] = '\0';
-        return (res);
-    }
-    if (len > s_len - start)
-        len = s_len - start;
-    res = (char *)malloc(len + 1);
-    if (!res)
-        return (NULL);
-    ft_strlcpy(res, s + start, len + 1);
-    if (s[start + len] != '\0')
-    {
-        ft_strlcpy(s, s + start + len, s_len - (start + len) + 1);
-    }
-    else
-        s[0] = '\0';
-    return (res);
+	if (!s)
+		return (NULL);
+	if (start >= ft_strlen(s))
+	{
+		res = malloc(1);
+		res[0] = '\0';
+		return (res);
+	}
+	if (ft_strlen(s) < len + start)
+		len = ft_strlen(s) - start;
+	res = (char *)malloc(len + 1);
+	if (!res)
+		return (NULL);
+	ft_strlcpy(res, s + start, len + 1);
+	return (res);
 }
-
 int	ft_s(const char *s, int c)
 {
 	int	i;
