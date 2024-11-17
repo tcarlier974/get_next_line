@@ -6,57 +6,51 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 20:29:08 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/17 21:26:09 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-    static t_lst    *l;
-    int             i;
-    int             c;
-    char            *res;
-    char            *tmp;
+	static t_lst	*l;
+	int				i;
+	int				c;
+	char			*res;
+	char			*tmp;
 
-    if (fd < 0 || BUFFER_SIZE <= 0)
-        return (NULL);
-    if (!l && !(ft_lst_init(&l, fd)))
-        return (NULL);
-    
-    c = ft_find_fd(&l, fd);
-    i = 1;
-    
-    while (i > 0 && ft_new_line(l->buff[c / 2]))
-    {
-        tmp = ft_realloc(l->buff[c / 2], 
-                        ft_l(l->buff[c / 2]), 
-                        ft_l(l->buff[c / 2]) + BUFFER_SIZE);
-        if (!tmp)
-            return (NULL);
-            
-        l->buff[c / 2] = tmp;
-        i = read(fd, l->buff[c / 2] + ft_l(l->buff[c / 2]), BUFFER_SIZE);
-        if (i > 0)
-            l->buff[c / 2][ft_l(l->buff[c / 2]) + i] = '\0';
-    }
-
-    if (i < 0 || (!i && !l->buff[c / 2][0]))
-        return (NULL);
-
-    res = ft_sub(l->buff[c / 2], 0, 
-                i == 0 ? ft_l(l->buff[c / 2]) 
-                      : ft_s(l->buff[c / 2], '\n') + 1);
-    
-    if (res)
-    {
-        tmp = l->buff[c / 2];
-        l->buff[c / 2] = ft_sub(tmp, ft_l(res), ft_l(tmp));
-        free(tmp);
-    }
-    
-    return (res);
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (!l && !(ft_lst_init(&l, fd)))
+		return (NULL);
+	c = ft_find_fd(&l, fd);
+	i = 1;
+	while (i > 0 && ft_new_line(l->buff[c / 2]))
+	{
+		tmp = ft_realloc(l->buff[c / 2],
+				ft_l(l->buff[c / 2]), 
+				ft_l(l->buff[c / 2]) + BUFFER_SIZE);
+		if (!tmp)
+			return (NULL);
+		l->buff[c / 2] = tmp;
+		i = read(fd, l->buff[c / 2] + ft_l(l->buff[c / 2]), BUFFER_SIZE);
+		if (i > 0)
+			l->buff[c / 2][ft_l(l->buff[c / 2]) + i] = '\0';
+	}
+	if (i < 0 || (!i && !l->buff[c / 2][0]))
+		return (NULL);
+	if (i == 0)
+		res = ft_sub(l->buff[c / 2], 0, ft_l(l->buff[c / 2]));
+	else
+		res = ft_sub(l->buff[c / 2], 0, ft_s(l->buff[c / 2], '\n') + 1);
+	if (res)
+	{
+		tmp = l->buff[c / 2];
+		l->buff[c / 2] = ft_sub(tmp, ft_l(res), ft_l(tmp));
+		free(tmp);
+	}
+	return (res);
 }
 
 char	*ft_sub(char *s, unsigned int start, size_t len)
