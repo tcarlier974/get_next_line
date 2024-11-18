@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 15:14:36 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:18:46 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ static char	*ft_extract_line(char **str, t_gnl *f)
 	line = ft_substr(*str, 0, i);
 	tmp = ft_substr(*str, i, ft_strlen(*str) - i);
 	free(*str);
+	if (!tmp)
+	{
+		free(line);
+		*str = NULL;
+		return (NULL);
+	}
 	*str = tmp;
 	if ((*str) == 0)
 		free(f);
