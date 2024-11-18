@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 00:13:59 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:49:06 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,28 @@ static char	*ft_extract_line(char **str)
 	*str = tmp;
 	return (line);
 }
+static char	*ft_realloc(char *old, size_t olds, size_t news)
+{
+	char	*new;
+	int		i;
+
+	new = malloc(olds + news + 1);
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (old[i])
+	{
+		new[i] = old[i];
+		i++;
+	}
+	new[i] = '\0';
+	free(old);
+	return (new);
+}
 
 char	*get_next_line(int fd)
 {
 	static t_gnl	files[1024];
-	char			buffer[BUFFER_SIZE + 1];
 	char			*line;
 	ssize_t			bytes;
 
@@ -54,35 +71,41 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	if (!files[fd].buf)
+	{	
 		files[fd].buf = ft_strdup("");
+		files[fd].tab = 0;
+	}
 	line = NULL;
 	while (!ft_strchr(files[fd].buf, '\n'))
 	{
-		bytes = read(fd, buffer, BUFFER_SIZE);
+		files[fd].buf = ft_realloc(files[fd].buf, ft_strlen(files[fd].buf), BUFFER_SIZE);
+		bytes = read(fd, files[fd].buf + files[fd].tab, BUFFER_SIZE);
 		if (bytes <= 0)
 			break ;
-		buffer[bytes] = '\0';
-		files[fd].buf = ft_strjoin_free(files[fd].buf, buffer);
+		files[fd].buf[files[fd].tab + bytes] = '\0';
+		files[fd].tab += bytes;
 	}
 	if (files[fd].buf && *files[fd].buf)
 		line = ft_extract_line(&files[fd].buf);
 	return (line);
 }
 
-// int	main(void)
-// {
-// 	int fd1;
-// 	char *line;
 
-// 	fd1 = open("test.txt", O_RDONLY);
-// 	int fd2 = open("test2.txt", O_RDONLY);
-// 	if (fd1 == -1 || fd2 == -1)
-// 		return (0);
-// 	line = get_next_line(fd1);
-// 	printf("%s", line);
-// 	line = get_next_line(fd1);
-// 	printf("%s", line);
-// 	close(fd1);
-// 	close(fd2);
-// 	return (0);
-// }
+#include <stdio.h>
+int	main(void)
+{
+	int fd1;
+	char *line;
+
+	fd1 = open("test.txt", O_RDONLY);
+	int fd2 = open("test2.txt", O_RDONLY);
+	if (fd1 == -1 || fd2 == -1)
+		return (0);
+	line = get_next_line(fd1);
+	printf("%s", line);
+	line = get_next_line(fd2);
+	printf("%s", line);
+	close(fd1);
+	close(fd2);
+	return (0);
+}

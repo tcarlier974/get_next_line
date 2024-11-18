@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:52 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 23:53:57 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:41:54 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 32
@@ -25,6 +26,7 @@ typedef struct s_gnl
 {
 	char	*buf;
 	ssize_t	pos;
+	int		*tab;
 }	t_gnl;
 
 char	*get_next_line(int fd);

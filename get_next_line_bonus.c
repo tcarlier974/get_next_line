@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 00:15:05 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:40:26 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* get_next_line.c */
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*ft_strchr(const char *s, int c)
 {
@@ -42,10 +42,28 @@ static char	*ft_extract_line(char **str)
 	return (line);
 }
 
+static char	*ft_realloc(char *old, size_t olds, size_t news)
+{
+	char	*new;
+	int		i;
+
+	new = malloc(olds + news + 1);
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (old[i])
+	{
+		new[i] = old[i];
+		i++;
+	}
+	new[i] = '\0';
+	free(old);
+	return (new);
+}
+
 char	*get_next_line(int fd)
 {
 	static t_gnl	files[1024];
-	char			buffer[BUFFER_SIZE + 1];
 	char			*line;
 	ssize_t			bytes;
 
@@ -58,11 +76,12 @@ char	*get_next_line(int fd)
 	line = NULL;
 	while (!ft_strchr(files[fd].buf, '\n'))
 	{
-		bytes = read(fd, buffer, BUFFER_SIZE);
+		files[fd].buf = ft_realloc(files[fd].buf, ft_strlen(files[fd].buf), BUFFER_SIZE);
+		bytes = read(fd, files[fd].buf + files[fd].tab[fd], BUFFER_SIZE);
 		if (bytes <= 0)
 			break ;
-		buffer[bytes] = '\0';
-		files[fd].buf = ft_strjoin_free(files[fd].buf, buffer);
+		files[fd].buf[files[fd].tab[fd] + bytes] = '\0';
+		files[fd].tab[fd] += bytes;
 	}
 	if (files[fd].buf && *files[fd].buf)
 		line = ft_extract_line(&files[fd].buf);
