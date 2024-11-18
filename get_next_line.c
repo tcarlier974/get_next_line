@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 17:05:49 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:14:45 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,28 +112,28 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-int	main(void)
-{
-	int fd1;
-	char *line;
+// int	main(void)
+// {
+// 	int fd1;
+// 	char *line;
 
-	fd1 = open("test.txt", O_RDONLY);
-	int fd2 = open("test2.txt", O_RDONLY);
-	if (fd1 == -1 || fd2 == -1)
-		return (0);
-	line = get_next_line(fd1);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd1);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd1);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd1);
-	printf("%s", line);
-	close(fd1);
-	close(fd2);
-	free(line);
-	return (0);
-}
+// 	fd1 = open("test.txt", O_RDONLY);
+// 	int fd2 = open("test2.txt", O_RDONLY);
+// 	if (fd1 == -1 || fd2 == -1)
+// 		return (0);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	free(line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	free(line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	free(line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	close(fd1);
+// 	close(fd2);
+// 	free(line);
+// 	return (0);
+// }
