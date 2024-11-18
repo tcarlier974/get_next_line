@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:52 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 12:45:53 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:10:28 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ char	*ft_strdup(const char *s);
 char	*ft_strjoin_free(char *s1, char *s2);
 size_t	ft_strlen(const char *s);
 char	*ft_substr(char *s, unsigned int start, size_t len);
+void	cleanup_fd(t_gnl *f);
 
 #endif

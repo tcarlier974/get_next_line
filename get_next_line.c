@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 14:58:46 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:09:01 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ static void	ft_find_new(t_gnl *f, int bytes, int fd)
 		{
 			(*f).buf[(*f).tab + bytes] = '\0';
 			(*f).tab += bytes;
+		}
+		if (bytes <= 0 && (!f[fd].buf || !*f[fd].buf))
+		{
+			cleanup_fd(&f[fd]);
+			return (NULL);
 		}
 	}
 }

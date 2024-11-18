@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/17 23:48:51 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:10:51 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,14 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	str[i + j] = '\0';
 	free(s1);
 	return (str);
+}
+
+void	cleanup_fd(t_gnl *f)
+{
+	if (f->buf)
+	{
+		free(f->buf);
+		f->buf = NULL;
+	}
+	f->tab = 0;
 }
