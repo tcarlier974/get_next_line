@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 15:09:01 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:14:36 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,16 @@ static char	*ft_realloc(char *old, size_t olds, size_t news)
 	return (new);
 }
 
-static void	ft_find_new(t_gnl *f, int bytes, int fd)
+static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 {
-	while (!ft_strchr((*f).buf, '\n') && bytes > 0)
+	while (!ft_strchr((*f).buf, '\n') && *bytes > 0)
 	{
 		(*f).buf = ft_realloc((*f).buf, ft_strlen((*f).buf), BUFFER_SIZE);
-		bytes = read(fd, (*f).buf + (*f).tab, BUFFER_SIZE);
-		if (bytes > 0)
+		*bytes = read(fd, (*f).buf + (*f).tab, BUFFER_SIZE);
+		if (*bytes > 0)
 		{
-			(*f).buf[(*f).tab + bytes] = '\0';
-			(*f).tab += bytes;
-		}
-		if (bytes <= 0 && (!f[fd].buf || !*f[fd].buf))
-		{
-			cleanup_fd(&f[fd]);
-			return (NULL);
+			(*f).buf[(*f).tab + *bytes] = '\0';
+			(*f).tab += *bytes;
 		}
 	}
 }
@@ -99,7 +94,12 @@ char	*get_next_line(int fd)
 	}
 	line = NULL;
 	bytes = 1;
-	ft_find_new(&f[fd], bytes, fd);
+	ft_find_new(&f[fd], &bytes, fd);
+	if (bytes <= 0 && (!f[fd].buf || !*f[fd].buf))
+	{
+		cleanup_fd(&f[fd]);
+		return (NULL);
+	}
 	if (f[fd].buf && *f[fd].buf)
 		line = ft_extract_line(&f[fd].buf, &f[fd]);
 	return (line);
