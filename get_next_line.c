@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 15:28:03 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:05:49 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* get_next_line.c */
 #include "get_next_line.h"
+#include <stdio.h>
 
 static char	*ft_strchr(const char *s, int c)
 {
@@ -71,14 +72,17 @@ static char	*ft_realloc(char *old, size_t olds, size_t news)
 
 static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 {
+	int	len;
+
+	len = ft_strlen((*f).buf);
 	while (!ft_strchr((*f).buf, '\n') && *bytes > 0)
 	{
 		(*f).buf = ft_realloc((*f).buf, ft_strlen((*f).buf), BUFFER_SIZE);
-		*bytes = read(fd, (*f).buf + (*f).tab, BUFFER_SIZE);
+		*bytes = read(fd, (*f).buf + ft_strlen((*f).buf), BUFFER_SIZE);
 		if (*bytes > 0)
 		{
-			(*f).buf[(*f).tab + *bytes] = '\0';
-			(*f).tab += *bytes;
+			(*f).buf[*bytes + len] = '\0';
+			len += *bytes;
 		}
 	}
 }
@@ -101,17 +105,13 @@ char	*get_next_line(int fd)
 	line = NULL;
 	bytes = 1;
 	ft_find_new(&f[fd], &bytes, fd);
-	if (bytes <= 0 && (!f[fd].buf || !*f[fd].buf))
-	{
-		cleanup_fd(&f[fd]);
-		return (NULL);
-	}
 	if (f[fd].buf && *f[fd].buf)
 		line = ft_extract_line(&f[fd].buf, &f[fd]);
+	if (bytes <= 0 || (!f[fd].buf || !*f[fd].buf))
+		cleanup_fd(&f[fd]);
 	return (line);
 }
 
-#include <stdio.h>
 int	main(void)
 {
 	int fd1;
@@ -121,17 +121,19 @@ int	main(void)
 	int fd2 = open("test2.txt", O_RDONLY);
 	if (fd1 == -1 || fd2 == -1)
 		return (0);
-	line = get_next_line(21);
-	printf("%s", line);
 	line = get_next_line(fd1);
 	printf("%s", line);
+	free(line);
 	line = get_next_line(fd1);
 	printf("%s", line);
-	line = get_next_line(fd2);
+	free(line);
+	line = get_next_line(fd1);
 	printf("%s", line);
-	line = get_next_line(fd2);
+	free(line);
+	line = get_next_line(fd1);
 	printf("%s", line);
 	close(fd1);
 	close(fd2);
+	free(line);
 	return (0);
 }

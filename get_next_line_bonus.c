@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 14:51:47 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:54:28 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ static char	*ft_extract_line(char **str, t_gnl *f)
 	line = ft_substr(*str, 0, i);
 	tmp = ft_substr(*str, i, ft_strlen(*str) - i);
 	free(*str);
+	if (!tmp)
+	{
+		free(line);
+		*str = NULL;
+		return (NULL);
+	}
 	*str = tmp;
 	if ((*str) == 0)
 		free(f);
@@ -63,16 +69,19 @@ static char	*ft_realloc(char *old, size_t olds, size_t news)
 	return (new);
 }
 
-static void	ft_find_new(t_gnl *f, int bytes, int fd)
+static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 {
-	while (!ft_strchr((*f).buf, '\n') && bytes > 0)
+	int	len;
+
+	len = ft_strlen((*f).buf);
+	while (!ft_strchr((*f).buf, '\n') && *bytes > 0)
 	{
 		(*f).buf = ft_realloc((*f).buf, ft_strlen((*f).buf), BUFFER_SIZE);
-		bytes = read(fd, (*f).buf + (*f).tab, BUFFER_SIZE);
-		if (bytes > 0)
+		*bytes = read(fd, (*f).buf + ft_strlen((*f).buf), BUFFER_SIZE);
+		if (*bytes > 0)
 		{
-			(*f).buf[(*f).tab + bytes] = '\0';
-			(*f).tab += bytes;
+			(*f).buf[*bytes + len] = '\0';
+			len += *bytes;
 		}
 	}
 }
@@ -94,9 +103,11 @@ char	*get_next_line(int fd)
 	}
 	line = NULL;
 	bytes = 1;
-	ft_find_new(&f[fd], bytes, fd);
+	ft_find_new(&f[fd], &bytes, fd);
 	if (f[fd].buf && *f[fd].buf)
 		line = ft_extract_line(&f[fd].buf, &f[fd]);
+	if (bytes <= 0 || (!f[fd].buf || !*f[fd].buf))
+		cleanup_fd(&f[fd]);
 	return (line);
 }
 
