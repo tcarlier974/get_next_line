@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 12:40:26 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:51:47 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-static char	*ft_extract_line(char **str)
+static char	*ft_extract_line(char **str, t_gnl *f)
 {
 	char	*line;
 	char	*tmp;
@@ -39,6 +39,8 @@ static char	*ft_extract_line(char **str)
 	tmp = ft_substr(*str, i, ft_strlen(*str) - i);
 	free(*str);
 	*str = tmp;
+	if ((*str) == 0)
+		free(f);
 	return (line);
 }
 
@@ -61,9 +63,23 @@ static char	*ft_realloc(char *old, size_t olds, size_t news)
 	return (new);
 }
 
+static void	ft_find_new(t_gnl *f, int bytes, int fd)
+{
+	while (!ft_strchr((*f).buf, '\n') && bytes > 0)
+	{
+		(*f).buf = ft_realloc((*f).buf, ft_strlen((*f).buf), BUFFER_SIZE);
+		bytes = read(fd, (*f).buf + (*f).tab, BUFFER_SIZE);
+		if (bytes > 0)
+		{
+			(*f).buf[(*f).tab + bytes] = '\0';
+			(*f).tab += bytes;
+		}
+	}
+}
+
 char	*get_next_line(int fd)
 {
-	static t_gnl	files[1024];
+	static t_gnl	f[1024];
 	char			*line;
 	ssize_t			bytes;
 
@@ -71,20 +87,16 @@ char	*get_next_line(int fd)
 	{
 		return (NULL);
 	}
-	if (!files[fd].buf)
-		files[fd].buf = ft_strdup("");
-	line = NULL;
-	while (!ft_strchr(files[fd].buf, '\n'))
+	if (!f[fd].buf)
 	{
-		files[fd].buf = ft_realloc(files[fd].buf, ft_strlen(files[fd].buf), BUFFER_SIZE);
-		bytes = read(fd, files[fd].buf + files[fd].tab[fd], BUFFER_SIZE);
-		if (bytes <= 0)
-			break ;
-		files[fd].buf[files[fd].tab[fd] + bytes] = '\0';
-		files[fd].tab[fd] += bytes;
+		f[fd].buf = ft_strdup("");
+		f[fd].tab = 0;
 	}
-	if (files[fd].buf && *files[fd].buf)
-		line = ft_extract_line(&files[fd].buf);
+	line = NULL;
+	bytes = 1;
+	ft_find_new(&f[fd], bytes, fd);
+	if (f[fd].buf && *f[fd].buf)
+		line = ft_extract_line(&f[fd].buf, &f[fd]);
 	return (line);
 }
 
@@ -97,7 +109,7 @@ char	*get_next_line(int fd)
 // 	int fd2 = open("test2.txt", O_RDONLY);
 // 	if (fd1 == -1 || fd2 == -1)
 // 		return (0);
-// 	line = get_next_line(fd1);
+// 	line = get_next_line(21);
 // 	printf("%s", line);
 // 	line = get_next_line(fd1);
 // 	printf("%s", line);
