@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 16:54:28 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:23:17 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 		{
 			(*f).buf[*bytes + len] = '\0';
 			len += *bytes;
+		}
+		else if (*bytes < 0)
+		{
+			cleanup_fd(f);
+			return ;
 		}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 17:33:18 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:32:52 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 			(*f).buf[*bytes + len] = '\0';
 			len += *bytes;
 		}
+		else if (*bytes < 0)
+		{
+			cleanup_fd(f);
+			return ;
+		}
 	}
 }
 
@@ -117,18 +122,25 @@ char	*get_next_line(int fd)
 // 	int fd1;
 // 	char *line;
 
-// 	fd1 = open("read_error.txt", O_RDONLY);
-// 	int fd2 = open("test2.txt", O_RDONLY);
+// 	fd1 = open("open.txt", O_RDONLY);
+// 	int fd2 = open("test.txt", O_RDONLY);
 // 	if (fd1 == -1 || fd2 == -1)
 // 		return (0);
-// 	while (line = get_next_line(fd1))
+// 	while (line = get_next_line(fd2))
 // 	{
 // 		printf("%s", line);
 // 		free(line);
 // 	}
 // 	line = get_next_line(fd1);
 // 	printf("%s", line);
-// 	free(line);
+// 		line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
 // 	close(fd1);
 // 	close(fd2);
 // 	free(line);
