@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 15:10:51 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/21 15:46:19 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,20 @@ size_t	ft_strlen(const char *s)
 char	*ft_strdup(const char *s)
 {
 	char	*dup;
+	size_t	i;
 	size_t	len;
 
 	len = ft_strlen(s);
 	dup = malloc(len + 1);
 	if (!dup)
 		return (NULL);
-	while (len + 1 > 0)
+	i = 0;
+	while (i < len)
 	{
-		((unsigned char *)dup)[len] = ((unsigned char *)s)[len];
-		len--;
+		dup[i] = s[i];
+		i++;
 	}
+	dup[i] = '\0';
 	return (dup);
 }
 
