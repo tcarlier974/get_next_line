@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 19:13:23 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 19:15:45 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 		else if (*bytes < 0)
 		{
 			cleanup_fd(f);
-			(*f).eof = 0;
 			return ;
 		}
 	}
