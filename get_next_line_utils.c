@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 23:02:44 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 23:06:30 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,30 +66,15 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (str);
 }
 
-char	*ft_strjoin_free(char *s1, char *s2)
+void    ft_init(t_gnl *f)
 {
-	char	*str;
-	size_t	i;
-	size_t	j;
-
-	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s1[i])
+    if (!(*f).buf)
 	{
-		str[i] = s1[i];
-		i++;
+		(*f).buf = ft_strdup("");
+		if (!(*f).buf)
+			return (NULL);
+		(*f).tab = 0;
 	}
-	j = 0;
-	while (s2[j])
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	str[i + j] = '\0';
-	free(s1);
-	return (str);
 }
 
 void	cleanup_fd(t_gnl *f)
