@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 19:23:27 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:32:29 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,20 @@ size_t	ft_strlen(const char *s)
 char	*ft_strdup(const char *s)
 {
 	char	*dup;
+	size_t	i;
 	size_t	len;
 
 	len = ft_strlen(s);
 	dup = malloc(len + 1);
 	if (!dup)
 		return (NULL);
-	while (len + 1 > 0)
+	i = 0;
+	while (i < len)
 	{
-		((unsigned char *)dup)[len] = ((unsigned char *)s)[len];
-		len--;
+		dup[i] = s[i];
+		i++;
 	}
+	dup[i] = '\0';
 	return (dup);
 }
 
@@ -61,34 +64,26 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (str);
 }
 
-char	*ft_strjoin_free(char *s1, char *s2)
+void	ft_init(t_gnl *f)
 {
-	char	*str;
-	size_t	i;
-	size_t	j;
-
-	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s1[i])
+	if (!f)
+		return ;
+	if (!f->buf)
+		f->buf = ft_strdup("");
+	if (!f->buf)
 	{
-		str[i] = s1[i];
-		i++;
+		cleanup_fd(f);
+		return ;
 	}
-	j = 0;
-	while (s2[j])
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	str[i + j] = '\0';
-	free(s1);
-	return (str);
+	f->tab = 0;
+	if (f->c > -1)
+		f->eof = 1;
 }
 
 void	cleanup_fd(t_gnl *f)
 {
+	if (!f)
+		return ;
 	if (f->buf)
 	{
 		free(f->buf);
@@ -96,4 +91,5 @@ void	cleanup_fd(t_gnl *f)
 	}
 	f->tab = 0;
 	f->eof = 0;
+	f->c = -1;
 }
