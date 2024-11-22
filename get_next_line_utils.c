@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 20:55:06 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:07:05 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_init(t_gnl *f)
 		return ;
 	}
 	f->tab = 0;
-	if (f->c > 0)
+	if (f->c > -1)
 		f->eof = 1;
 }
 
