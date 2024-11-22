@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 19:15:25 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 19:29:08 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ char	*ft_strjoin_free(char *s1, char *s2)
 
 void	cleanup_fd(t_gnl *f)
 {
+	if (!f)
+		return ;
 	if (f->buf)
 	{
 		free(f->buf);
