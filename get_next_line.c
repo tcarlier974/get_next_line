@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 22:46:02 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 22:48:13 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*ft_strchr(const char *s, int c)
     return (NULL);
 }
 
-static char	*ft_extract_line(char **str, t_gnl *f)
+static char	*ft_extract_line(char **str)
 {
     char	*line;
     char	*tmp;
