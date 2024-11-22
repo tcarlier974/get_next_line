@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/21 15:47:28 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:51:28 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,25 @@ static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 {
 	int	len;
 
-	len = ft_strlen((*f).buf);
-	while (!ft_strchr((*f).buf, '\n') && *bytes > 0)
+	len = ft_strlen(f->buf);
+	while (!ft_strchr(f->buf, '\n') && *bytes > 0)
 	{
-		(*f).buf = ft_realloc((*f).buf, ft_strlen((*f).buf), BUFFER_SIZE);
-		*bytes = read(fd, (*f).buf + ft_strlen((*f).buf), BUFFER_SIZE);
-		if (*bytes > 0)
+		f->buf = ft_realloc(f->buf, len, BUFFER_SIZE);
+		if (!f->buf)
 		{
-			(*f).buf[*bytes + len] = '\0';
-			len += *bytes;
+			*bytes = -1;
+			return ;
 		}
-		else if (*bytes < 0)
+		*bytes = read(fd, f->buf + len, BUFFER_SIZE);
+		if (*bytes < 0)
 		{
 			cleanup_fd(f);
 			return ;
+		}
+		if (*bytes > 0)
+		{
+			f->buf[len + *bytes] = '\0';
+			len += *bytes;
 		}
 	}
 }
