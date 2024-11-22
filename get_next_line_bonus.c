@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 22:32:49 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 23:02:39 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,6 @@ static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 {
 	int	len;
 
-	if ((*f).eof == 0)
-	{
-		cleanup_fd(f);
-		return ;
-	}
 	len = ft_strlen((*f).buf);
 	while (!ft_strchr((*f).buf, '\n') && *bytes > 0)
 	{
@@ -88,6 +83,11 @@ static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 		{
 			(*f).buf[*bytes + len] = '\0';
 			len += *bytes;
+		}
+		else if (*bytes < 0)
+		{
+			cleanup_fd(f);
+			return ;
 		}
 	}
 }
@@ -102,15 +102,19 @@ char	*get_next_line(int fd)
 	{
 		return (NULL);
 	}
-	ft_init(&f[fd]);
+	if (!f[fd].buf)
+	{
+		f[fd].buf = ft_strdup("");
+		if (!f[fd].buf)
+			return (NULL);
+		f[fd].tab = 0;
+	}
 	line = NULL;
 	bytes = 1;
 	ft_find_new(&f[fd], &bytes, fd);
-	if (bytes == 0)
-		f[fd].eof = 0;
 	if (f[fd].buf && *f[fd].buf)
 		line = ft_extract_line(&f[fd].buf, &f[fd]);
-	if (!line || (!f[fd].buf || !*f[fd].buf))
+	if (bytes <= 0 || (!f[fd].buf || !*f[fd].buf))
 		cleanup_fd(&f[fd]);
 	return (line);
 }
