@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 21:16:40 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:22:05 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,5 @@ void	cleanup_fd(t_gnl *f)
 	}
 	f->tab = 0;
 	f->eof = 0;
+	f->c = -1;
 }
