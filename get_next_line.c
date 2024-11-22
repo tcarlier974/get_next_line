@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 15:51:28 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:00:00 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 		if (!f->buf)
 		{
 			*bytes = -1;
+			cleanup_fd(f);
 			return ;
 		}
 		*bytes = read(fd, f->buf + len, BUFFER_SIZE);
@@ -117,6 +118,8 @@ char	*get_next_line(int fd)
 	line = NULL;
 	bytes = 1;
 	ft_find_new(&f[fd], &bytes, fd);
+	if (!f[fd].buf)
+		return (NULL);
 	if (f[fd].buf && *f[fd].buf)
 		line = ft_extract_line(&f[fd].buf, &f[fd]);
 	if (bytes <= 0 || (!f[fd].buf || !*f[fd].buf))
