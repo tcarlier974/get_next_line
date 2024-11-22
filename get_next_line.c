@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 21:46:35 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 22:08:38 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,6 @@ static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 			(*f).buf[*bytes + len] = '\0';
 			len += *bytes;
 		}
-		else if (*bytes < 0)
-		{
-			cleanup_fd(f);
-			return ;
-		}
 	}
 }
 
@@ -115,39 +110,36 @@ char	*get_next_line(int fd)
 		line = ft_extract_line(&f[fd].buf, &f[fd]);
 	if ((bytes <= 0 && !line) || (!f[fd].buf || !*f[fd].buf))
 		cleanup_fd(&f[fd]);
-	if (line && ft_strchr(line, '\n'))
-	{
+	if (bytes > 0 && (f[fd].buf && *f[fd].buf))
 		f[fd].eof = 1;
-		f[fd].c += 1;
-	}
 	else
 		f[fd].eof = 0;
 	return (line);
 }
 
-int	main(void)
-{
-	int fd1;
-	char *line;
+// int	main(void)
+// {
+// 	int fd1;
+// 	char *line;
 
-	fd1 = open("empty.txt", O_RDONLY);
-	if (fd1 == -1)
-		return (0);
-	while (line = get_next_line(fd1))
-	{
-		printf("%s", line);
-		free(line);
-	}
-	line = get_next_line(fd1);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd1);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd1);
-	printf("%s", line);
-	free(line);
-	close(fd1);
-	free(line);
-	return (0);
-}
+// 	fd1 = open("empty.txt", O_RDONLY);
+// 	if (fd1 == -1)
+// 		return (0);
+// 	while (line = get_next_line(fd1))
+// 	{
+// 		printf("%s", line);
+// 		free(line);
+// 	}
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	free(line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	free(line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	free(line);
+// 	close(fd1);
+// 	free(line);
+// 	return (0);
+// }
