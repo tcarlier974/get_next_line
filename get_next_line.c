@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 20:21:03 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 20:21:39 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,23 +123,23 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-int	main(void)
-{
-	int fd1;
-	char *line;
+// int	main(void)
+// {
+// 	int fd1;
+// 	char *line;
 
-	fd1 = open("empty.txt", O_RDONLY);
-	if (fd1 == -1)
-		return (0);
-	while (line = get_next_line(fd1))
-	{
-		printf("%s", line);
-		free(line);
-	}
-	line = get_next_line(fd1);
-	printf("%s", line);
-	free(line);
-	close(fd1);
-	free(line);
-	return (0);
-}
+// 	fd1 = open("empty.txt", O_RDONLY);
+// 	if (fd1 == -1)
+// 		return (0);
+// 	while (line = get_next_line(fd1))
+// 	{
+// 		printf("%s", line);
+// 		free(line);
+// 	}
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	free(line);
+// 	close(fd1);
+// 	free(line);
+// 	return (0);
+// }
