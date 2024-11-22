@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 21:32:29 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 22:33:18 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,13 @@ void	ft_init(t_gnl *f)
 {
 	if (!f)
 		return ;
-	if (!f->buf)
-		f->buf = ft_strdup("");
-	if (!f->buf)
+	if (!(*f).buf)
 	{
-		cleanup_fd(f);
-		return ;
+		(*f).buf = ft_strdup("");
+		(*f).tab = 0;
+		(*f).eof = 1;
+		(*f).c = 0;
 	}
-	f->tab = 0;
-	if (f->c > -1)
-		f->eof = 1;
 }
 
 void	cleanup_fd(t_gnl *f)
