@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:52 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 19:23:38 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:33:28 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@
 typedef struct s_gnl
 {
 	char	*buf;
-	ssize_t	pos;
 	int		tab;
 	int		eof;
+	int		c;
 }	t_gnl;
 
 char	*get_next_line(int fd);
 char	*ft_strdup(const char *s);
-char	*ft_strjoin_free(char *s1, char *s2);
+void	ft_init(t_gnl *f);
 size_t	ft_strlen(const char *s);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 void	cleanup_fd(t_gnl *f);
