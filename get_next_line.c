@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 18:13:27 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:33:33 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 
 static char	*ft_strchr(const char *s, int c)
 {
-	if (!s)
-		return (NULL);
 	while (*s)
 	{
 		if (*s == (char)c)
@@ -33,8 +31,6 @@ static char	*ft_extract_line(char **str, t_gnl *f)
 	char	*tmp;
 	int		i;
 
-	if (!str || !*str)
-		return (NULL);
 	i = 0;
 	while ((*str)[i] && (*str)[i] != '\n')
 		i++;
@@ -78,26 +74,20 @@ static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 {
 	int	len;
 
-	len = ft_strlen(f->buf);
-	while (!ft_strchr(f->buf, '\n') && *bytes > 0)
+	len = ft_strlen((*f).buf);
+	while (!ft_strchr((*f).buf, '\n') && *bytes > 0)
 	{
-		f->buf = ft_realloc(f->buf, len, BUFFER_SIZE);
-		if (!f->buf)
-		{
-			*bytes = -1;
-			cleanup_fd(f);
-			return ;
-		}
-		*bytes = read(fd, f->buf + len, BUFFER_SIZE);
-		if (*bytes < 0)
-		{
-			cleanup_fd(f);
-			return ;
-		}
+		(*f).buf = ft_realloc((*f).buf, ft_strlen((*f).buf), BUFFER_SIZE);
+		*bytes = read(fd, (*f).buf + ft_strlen((*f).buf), BUFFER_SIZE);
 		if (*bytes > 0)
 		{
-			f->buf[len + *bytes] = '\0';
+			(*f).buf[*bytes + len] = '\0';
 			len += *bytes;
+		}
+		else if (*bytes < 0)
+		{
+			cleanup_fd(f);
+			return ;
 		}
 	}
 }
@@ -115,15 +105,11 @@ char	*get_next_line(int fd)
 	if (!f[fd].buf)
 	{
 		f[fd].buf = ft_strdup("");
-		if (!f[fd].buf)
-			return (NULL);
 		f[fd].tab = 0;
 	}
 	line = NULL;
 	bytes = 1;
 	ft_find_new(&f[fd], &bytes, fd);
-	if (!f[fd].buf)
-		return (NULL);
 	if (f[fd].buf && *f[fd].buf)
 		line = ft_extract_line(&f[fd].buf, &f[fd]);
 	if (bytes <= 0 || (!f[fd].buf || !*f[fd].buf))
@@ -131,24 +117,23 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// #include <stdio.h>
-// int	main(void)
-// {
-// 	int fd1;
-// 	char *line;
+int	main(void)
+{
+	int fd1;
+	char *line;
 
-// 	fd1 = open("empty.txt", O_RDONLY);
-// 	if (fd1 == -1)
-// 		return (0);
-// 	while (line = get_next_line(fd1))
-// 	{
-// 		printf("%s", line);
-// 		free(line);
-// 	}
-// 	line = get_next_line(fd1);
-// 	printf("%s", line);
-// 	free(line);
-// 	close(fd1);
-// 	free(line);
-// 	return (0);
-// }
+	fd1 = open("empty.txt", O_RDONLY);
+	if (fd1 == -1)
+		return (0);
+	while (line = get_next_line(fd1))
+	{
+		printf("%s", line);
+		free(line);
+	}
+	line = get_next_line(fd1);
+	printf("%s", line);
+	free(line);
+	close(fd1);
+	free(line);
+	return (0);
+}
