@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 16:00:00 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:07:42 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 static char	*ft_strchr(const char *s, int c)
 {
+	if (!s)
+		return (NULL);
 	while (*s)
 	{
 		if (*s == (char)c)
@@ -31,6 +33,8 @@ static char	*ft_extract_line(char **str, t_gnl *f)
 	char	*tmp;
 	int		i;
 
+	if (!str || !*str)
+		return (NULL);
 	i = 0;
 	while ((*str)[i] && (*str)[i] != '\n')
 		i++;
@@ -127,32 +131,20 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// int	main(void)
-// {
-// 	int fd1;
-// 	char *line;
+int	main(void)
+{
+	int fd1;
+	char *line;
 
-// 	fd1 = open("open.txt", O_RDONLY);
-// 	int fd2 = open("test.txt", O_RDONLY);
-// 	if (fd1 == -1 || fd2 == -1)
-// 		return (0);
-// 	while (line = get_next_line(fd2))
-// 	{
-// 		printf("%s", line);
-// 		free(line);
-// 	}
-// 	line = get_next_line(fd1);
-// 	printf("%s", line);
-// 		line = get_next_line(fd1);
-// 	printf("%s", line);
-// 	line = get_next_line(fd1);
-// 	printf("%s", line);
-// 	line = get_next_line(fd1);
-// 	printf("%s", line);
-// 	line = get_next_line(fd1);
-// 	printf("%s", line);
-// 	close(fd1);
-// 	close(fd2);
-// 	free(line);
-// 	return (0);
-// }
+	fd1 = open("empty.txt", O_RDONLY);
+	if (fd1 == -1)
+		return (0);
+	while (line = get_next_line(fd1))
+	{
+		printf("%s", line);
+		free(line);
+	}
+	close(fd1);
+	free(line);
+	return (0);
+}
