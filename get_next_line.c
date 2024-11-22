@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 21:01:56 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:04:46 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ char	*get_next_line(int fd)
 		line = ft_extract_line(&f[fd].buf, &f[fd]);
 	if ((bytes <= 0 && !line) || (!f[fd].buf || !*f[fd].buf))
 		cleanup_fd(&f[fd]);
-	if (bytes > 0)
-		(*f).c = bytes;
+	if (ft_strchr(f[fd].buf, '\n') && f[fd].buf)
+		f[fd].eof = 1;
 	return (line);
 }
 
