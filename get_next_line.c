@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 22:08:38 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 22:15:58 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,16 @@ char	*get_next_line(int fd)
 	ft_init(&f[fd]);
 	line = NULL;
 	bytes = 1;
-	ft_find_new(&f[fd], &bytes, fd);
+	if (!f[fd].eof)  // Lire seulement si pas EOF
+	{
+		ft_find_new(&f[fd], &bytes, fd);
+		if (bytes == 0)  // Vrai EOF atteint
+			f[fd].eof = 1;
+	}
 	if (f[fd].buf && *f[fd].buf)
 		line = ft_extract_line(&f[fd].buf, &f[fd]);
-	if ((bytes <= 0 && !line) || (!f[fd].buf || !*f[fd].buf))
+	if (!line || (!f[fd].buf || !*f[fd].buf))
 		cleanup_fd(&f[fd]);
-	if (bytes > 0 && (f[fd].buf && *f[fd].buf))
-		f[fd].eof = 1;
-	else
-		f[fd].eof = 0;
 	return (line);
 }
 
