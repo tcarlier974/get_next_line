@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:52 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 16:58:10 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 19:23:38 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_gnl
 	char	*buf;
 	ssize_t	pos;
 	int		tab;
-	int		c;
+	int		eof;
 }	t_gnl;
 
 char	*get_next_line(int fd);

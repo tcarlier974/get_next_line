@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcarlier <tcarlier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/18 16:54:47 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 19:23:27 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,5 @@ void	cleanup_fd(t_gnl *f)
 		f->buf = NULL;
 	}
 	f->tab = 0;
+	f->eof = 0;
 }

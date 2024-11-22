@@ -6,12 +6,13 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/21 14:23:17 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/22 19:23:11 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* get_next_line.c */
 #include "get_next_line_bonus.h"
+#include <stdio.h>
 
 static char	*ft_strchr(const char *s, int c)
 {
@@ -73,6 +74,11 @@ static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 {
 	int	len;
 
+	if ((*f).eof == 0)
+	{
+		cleanup_fd(f);
+		return ;
+	}
 	len = ft_strlen((*f).buf);
 	while (!ft_strchr((*f).buf, '\n') && *bytes > 0)
 	{
@@ -105,6 +111,7 @@ char	*get_next_line(int fd)
 	{
 		f[fd].buf = ft_strdup("");
 		f[fd].tab = 0;
+		f[fd].eof = 1;
 	}
 	line = NULL;
 	bytes = 1;
