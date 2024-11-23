@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/23 14:01:24 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/23 14:11:40 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (str);
 }
 
-void    ft_init(t_gnl *f)
+void	ft_init(t_gnl *f)
 {
-    if (!(*f).buf)
+	if (!(*f).buf)
 	{
 		(*f).buf = ft_strdup("");
 		if (!(*f).buf)
