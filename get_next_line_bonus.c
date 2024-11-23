@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/23 14:02:09 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/23 23:09:04 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static char	*ft_realloc(char *old, size_t olds, size_t news)
 	char	*new;
 	int		i;
 
+	if (news == 0)
+		return (old);
 	new = malloc(olds + news + 1);
 	if (!new)
 		return (NULL);
@@ -78,11 +80,14 @@ static void	ft_find_new(t_gnl *f, ssize_t *bytes, int fd)
 	while (!ft_strchr((*f).buf, '\n') && *bytes > 0)
 	{
 		(*f).buf = ft_realloc((*f).buf, ft_strlen((*f).buf), BUFFER_SIZE);
+		if (!(*f).buf)
+			return ;
 		*bytes = read(fd, (*f).buf + ft_strlen((*f).buf), BUFFER_SIZE);
 		if (*bytes > 0)
 		{
 			(*f).buf[*bytes + len] = '\0';
 			len += *bytes;
+			(*f).tab += *bytes;
 		}
 		else if (*bytes < 0)
 		{
@@ -107,7 +112,12 @@ char	*get_next_line(int fd)
 	bytes = 1;
 	ft_find_new(&f[fd], &bytes, fd);
 	if (f[fd].buf && *f[fd].buf)
+	{
 		line = ft_extract_line(&f[fd].buf, &f[fd]);
+		if (!line)
+			return (NULL);
+		return (line);
+	}
 	if (bytes <= 0 || (!f[fd].buf || !*f[fd].buf))
 		cleanup_fd(&f[fd]);
 	return (line);
