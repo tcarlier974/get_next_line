@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:54 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/22 23:10:28 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/23 14:02:09 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*get_next_line(int fd)
 	{
 		return (NULL);
 	}
-    ft_init(&f[fd]);
+	ft_init(&f[fd]);
 	line = NULL;
 	bytes = 1;
 	ft_find_new(&f[fd], &bytes, fd);

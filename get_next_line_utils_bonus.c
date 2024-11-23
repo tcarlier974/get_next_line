@@ -6,7 +6,7 @@
 /*   By: tcarlier <tcarlier@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:27:56 by tcarlier          #+#    #+#             */
-/*   Updated: 2024/11/23 13:59:27 by tcarlier         ###   ########.fr       */
+/*   Updated: 2024/11/23 14:01:03 by tcarlier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 
 void    ft_init(t_gnl *f)
 {
-    if (!(*f).buf)
+	if (!(*f).buf)
 	{
 		(*f).buf = ft_strdup("");
 		if (!(*f).buf)
